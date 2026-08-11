@@ -6,8 +6,8 @@ nltk.download("punkt_tab")
 
 tokenizer = build_tokenizer(
     train_file="train.txt",
-    max_voc_size=10000,
-    model_max_length=128,
+    max_voc_size=None,
+    model_max_length=None,
 )
 
 print("Vocabulary size:", len(tokenizer))
