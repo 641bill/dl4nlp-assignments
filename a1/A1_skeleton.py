@@ -182,6 +182,11 @@ class A1Tokenizer:
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
+    def save_pretrained(self, save_directory):
+        """Save tokenizer for Hugging Face Trainer checkpoint compatibility."""
+        os.makedirs(save_directory, exist_ok=True)
+        self.save(os.path.join(save_directory, "tokenizer.pkl"))
+
     @staticmethod
     def from_file(filename):
         """Load a tokenizer from the given file."""

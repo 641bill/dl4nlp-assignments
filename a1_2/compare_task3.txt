@@ -1,0 +1,53 @@
+A2 homework model vs pretrained OLMo-2-0425-1B (Task 3.3)
+==========================================================
+
+A2: 2-layer Transformer, 50k word vocab, Wikipedia paragraphs, ~28M params.
+OLMo: 1B-parameter base LM (not instruction-tuned), subword tokenizer.
+A2 numbers from generate_a2.py; OLMo from compare_olmo_a2.txt (CPU, seed 0).
+
+Next-word / next-token
+----------------------
+Prompt                         A2 argmax          OLMo argmax
+She lives in San               francisco (0.41)   Francisco (0.41)
+The capital of Sweden is       the (0.10)         Stockholm (0.86)
+The cat sat on the             <UNK> (0.06)       sofa (0.09)
+
+Both predict San → Francisco. OLMo also knows Sweden → Stockholm;
+A2 falls back to generic Wikipedia-style "the".
+
+Generation (greedy, 40 tokens)
+------------------------------
+"In natural language processing, a Transformer"
+  A2:  "... a transformer and a <UNK> data structure is a <UNK> data
+        structure that the data structure of data structure ..."
+  OLMo: "... is a type of neural network architecture that is used for
+        natural language processing tasks. It was developed by Google
+        Brain researchers in 2017 ..."
+
+"Is Stockholm the capital of Sweden? Answer yes or no. The answer is"
+  A2:  "... the same . . . . . ."  (repeats periods)
+  OLMo greedy: "yes."
+  OLMo sample: "no."  (base LM is not a reliable QA model)
+
+"Write a Python program that reverses a list."
+  A2:  often stops immediately after the prompt (treats "." as EOS)
+  OLMo: continues in English ("The list should be reversed in place...")
+        — not actual Python. Expected: this OLMo checkpoint is a
+        language model, not instruction-tuned.
+
+"She lives in San"
+  A2 greedy: "francisco , new york city , new york city , ..."
+  OLMo greedy: "Francisco, California."
+
+What temperature / top-k do
+---------------------------
+Lower T + small top-k: safer, more repetitive (A2 loops; OLMo stays on topic).
+Higher T + larger top-k: more variety, more errors (OLMo: San Antonio
+instead of San Francisco; A2: more UNK and topic drift).
+
+Takeaway for the assignment
+---------------------------
+The homework model produces vaguely English Wikipedia-like text but
+repeats and lacks facts/code. Pretrained OLMo is far more fluent and
+factual on encyclopedic prompts, but still not a chatbot: sampling can
+flip yes/no, and a "write a program" prompt is completed as prose.

@@ -1,0 +1,121 @@
+A2 Step 3 comparison
+Generated: 2026-08-18T11:53:23.415103
+
+
+============================================================
+TASK 3.3 — pretrained OLMo 2 1B
+============================================================
+Loading allenai/OLMo-2-0425-1B
+Device: cpu
+Step 1/3: loading tokenizer...
+Step 2/3: loading model weights from local cache...
+Step 3/3: moving model to cpu...
+Model ready.
+
+--- Task 3.1-style next-token prediction (OLMo tokenizer) ---
+  predicting: 'She lives in San'
+
+Prompt: 'She lives in San'
+  argmax: 'Francisco'
+   1. Francisco            0.4149
+   2. Diego                0.1814
+   3. Jose                 0.1213
+   4. Antonio              0.0770
+   5. Mate                 0.0247
+   6. Juan                 0.0239
+   7. Luis                 0.0160
+   8. Rafael               0.0124
+  predicting: 'he lives in san'
+
+Prompt: 'he lives in san'
+  argmax: 'franc'
+   1. franc                0.5651
+   2. die                  0.1556
+   3. ant                  0.0514
+   4. jose                 0.0402
+   5. ju                   0.0289
+   6. ped                  0.0100
+   7. mar                  0.0091
+   8. l                    0.0087
+  predicting: 'The capital of Sweden is'
+
+Prompt: 'The capital of Sweden is'
+  argmax: 'Stockholm'
+   1. Stockholm            0.8588
+   2. the                  0.0192
+   3. U                    0.0159
+   4. called               0.0153
+   5. located              0.0114
+   6. known                0.0079
+   7.                      0.0042
+   8. Helsinki             0.0035
+  predicting: 'The cat sat on the'
+
+Prompt: 'The cat sat on the'
+  argmax: 'sofa'
+   1. sofa                 0.0939
+   2. couch                0.0695
+   3. chair                0.0649
+   4. stool                0.0353
+   5. fence                0.0323
+   6. wall                 0.0294
+   7. porch                0.0237
+   8. counter              0.0235
+
+--- Task 3.2-style generation (assignment prompts) ---
+
+Prompt: 'In natural language processing, a Transformer'
+  generating [greedy]...
+  [greedy]
+    is a type of neural network architecture that is used for natural language processing tasks. It was developed by Google Brain researchers in 2017 and has since become one of the most popular architectures for NLP
+  generating [T=0.7, top-k=10]...
+  [T=0.7, top-k=10]
+    is a neural network architecture used for natural language processing tasks such as machine translation, speech recognition, question answering, and text summarization. The Transformer was introduced in 2017 by the Google Brain team
+  generating [T=1.0, top-k=50]...
+  [T=1.0, top-k=50]
+    module can be referred to as a 'stack'. To build the next generation of Transformers, researchers focused on how to better embed information in the network. For the last 10 years, Transformers have always
+
+Prompt: 'Is Stockholm the capital of Sweden? Answer yes or no. The answer is'
+  generating [greedy]...
+  [greedy]
+    yes.
+  generating [T=0.7, top-k=10]...
+  [T=0.7, top-k=10]
+    no.
+no
+  generating [T=1.0, top-k=50]...
+  [T=1.0, top-k=50]
+    no.
+no
+
+Prompt: 'Write a Python program that reverses a list.'
+  generating [greedy]...
+  [greedy]
+    The list should be reversed in place, so that the original list is unchanged. For example, given the list [1, 2, 3], the output should be [3, 2
+  generating [T=0.7, top-k=10]...
+  [T=0.7, top-k=10]
+    You can reverse a list by taking each item in the list and swapping it with the item at the end of the list. For example, reversing [1,2,3,4] would result
+  generating [T=1.0, top-k=50]...
+  [T=1.0, top-k=50]
+    You can reverse a list in two ways. You can reverse the list by removing each item of the list and then placing it n times consecutively, where n is the length of the list.
+
+Prompt: 'She lives in San'
+  generating [greedy]...
+  [greedy]
+    Francisco, California.
+  generating [T=0.7, top-k=10]...
+  [T=0.7, top-k=10]
+    Francisco, California, but is originally from New York City.
+Education.
+Lynch is a graduate of The New School in New York City and the University of California, Berkeley. She earned a BFA
+  generating [T=1.0, top-k=50]...
+  [T=1.0, top-k=50]
+    Antonio, Texas
+
+--- Notes for Task 3.3 ---
+- OLMo is a base LM (not instruction-tuned), but much larger and better trained.
+- Expect more coherent continuations than the homework-scale A2 model.
+- Compare especially on factual prompts and code-style prompts.
+
+Done.
+Saved output to: a1_2/compare_olmo_a2.txt

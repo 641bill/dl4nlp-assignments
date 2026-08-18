@@ -1,0 +1,56 @@
+A1 RNN (50k) vs A2 Transformer (50k) — Task 2.1 comparison
+============================================================
+
+Same tokenizer vocabulary (50,000), same train/val data, same model_max_length=128.
+
+Metric                              A1 RNN 50k          A2 Transformer
+--------------------------------------------------------------------
+Architecture                        LSTM                2-layer Transformer
+Parameters                          19,645,264          27,699,456
+Model size on disk                  ~80 MB              ~106 MB
+
+Validation (token-weighted, local)  CE 4.93 / PPL 138   CE 5.7082 / PPL 301.31
+Validation UNK %                    4.02%               3.92%
+
+Colab Trainer eval (A2 only)        —                   CE 4.5224 / PPL 92.05
+                                    (different aggregation; not used for comparison)
+
+"She lives in San" top-1            francisco (0.37)    francisco (0.41)
+                                    diego (0.14)        diego (0.23)
+
+Official A2 validation numbers
+------------------------------
+Report the token-weighted evaluator (same method as Assignment 1):
+
+    CE  = 5.7082
+    PPL = 301.31
+
+These come from a1_2/evaluate_a2.py on final_model/ (identical weights to
+checkpoint-55149). No retraining is needed.
+
+Why Trainer eval_loss is lower (4.52 vs 5.71)
+---------------------------------------------
+Not two different models. Two different ways of averaging the same per-batch
+mean cross-entropy:
+
+  - The model returns one scalar per batch: CrossEntropyLoss over valid tokens
+    (ignore_index=-100), i.e. a mean over that batch's tokens.
+  - Hugging Face Trainer then treats those batch scalars as roughly
+    example/batch-equal: it repeats each batch loss by batch_size and takes
+    the mean. Short Wikipedia paragraphs get almost the same weight as long ones.
+  - evaluate_a2.py reweights by the number of valid next-token targets:
+
+        CE_token = sum_b (loss_b * n_b) / sum_b n_b
+
+    so a paragraph with 100 tokens does not count as much as one with 800.
+
+Validation paragraphs vary a lot in length, so the two averages diverge.
+PPL = exp(CE) then magnifies CE 4.52 vs 5.71 into 92 vs 301.
+
+Use token-weighted PPL for the assignment and for the A1 comparison.
+
+Files
+-----
+  a1_2/final_model/              trained weights + tokenizer + metrics
+  a1_2/evaluate_a2.py            token-weighted validation
+  a1_2/final_model/evaluation_results.json
