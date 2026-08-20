@@ -4,3 +4,16 @@ transformers==5.10.1
 numpy==2.4.6
 datasets>=4.0.0
 accelerate>=1.1.0
+evaluate>=0.4.0
+rouge_score>=0.1.2
+ipykernel
+# A4 RAG (LangChain + Chroma)
+langchain
+langchain-community
+langchain-huggingface
+langchain-core
+langchain-text-splitters
+langchain-chroma
+sentence-transformers
+pandas
+scikit-learn

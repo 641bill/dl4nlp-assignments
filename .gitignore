@@ -8,4 +8,8 @@ __pycache__
 a1_2/final_model/
 a1_2/*.zip
 a1_2/.datasets_cache/
+a3/.datasets_cache/
+a3/a3_outputs/
+a4/.datasets_cache/
+a4/a4_outputs/
 *.log
